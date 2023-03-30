@@ -28,7 +28,6 @@ export const addReview = (req, res) => {
     description: req.body.description,
     rating: req.body.rating,
   }
-
   reviews.push(addedReview)
   res.status(201).send(addedReview)
 }
