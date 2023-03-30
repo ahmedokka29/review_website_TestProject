@@ -1,0 +1,3 @@
+let reviews = []
+
+export { reviews }
