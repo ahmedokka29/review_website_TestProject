@@ -33,7 +33,6 @@ export const addReview = (req, res) => {
   res.status(201).send(addedReview)
 }
 export const editReview = (req, res) => {
-  const id = req.params.id
   const review = reviews.find((c) => c.id === parseInt(req.params.id))
   const validateRusult = validateReview(req.body)
   if (validateRusult.error) {
