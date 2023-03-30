@@ -16,6 +16,16 @@ export const getReviewById = (req, res) => {
   }
   res.status(200).send(review);
 };
+
+export const getReviewByRating = (req, res) => {
+  const rating = req.params.rating
+  const review = reviews.filter((f) => f.rating == rating)
+  if (!review) {
+    res.send("there's no review by this rating")
+  }
+  res.status(200).send(review)
+}
+
 export const addReview = (req, res) => {
   const review = req.body;
   const validateRusult = validateReview(review);
