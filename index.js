@@ -6,6 +6,8 @@ const app = express()
 
 app.use(express.json())
 
+app.use(reviewRouter)
+
 app.listen(port, async () => {
   console.log(`hello from port ${port}`)
 })
