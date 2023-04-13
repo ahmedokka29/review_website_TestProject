@@ -13,14 +13,19 @@ export const getReviews = async (req, res) => {
     console.log(error)
   }
 }
-export const getReviewById = (req, res) => {
-  const id = req.params.id;
-  const review = reviews.filter((f) => f.id == id);
-  if (!review) {
-    res.send("there's no review by this ID");
+export const getReviewById = async (req, res) => {
+  const reviewId = req.params.id
+  try {
+    const foundReview = await review.findById(reviewId)
+    if (!foundReview) {
+      res.send("there's no review by this id")
+    } else {
+      res.status(200).send(foundReview)
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
-  res.status(200).send(review);
-};
+}
 
 export const getReviewByRating = (req, res) => {
   const rating = req.params.rating
