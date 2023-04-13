@@ -1,30 +1,20 @@
-import { review } from "../models/reviews.js";
+import { reviews } from "../models/reviews.js";
 import { validateReview } from "../helpers/validation";
 
-export const getReviews = async (req, res) => {
-  try {
-    const foundReviews = await review.find({});
-    if (foundReviews.length <= 0) {
-      res.send("there's no reviews");
-    } else {
-      res.send(foundReviews);
-    }
-  } catch (error) {
-    console.log(error);
+export const getReviews = (req, res) => {
+  const Reviews = reviews;
+  if (!reviews) {
+    res.send("there's no reviews");
   }
+  res.status(200).send(Reviews);
 };
-export const getReviewById = async (req, res) => {
-  const reviewId = req.params.id;
-  try {
-    const foundReview = await review.findById(reviewId);
-    if (!foundReview) {
-      res.send("there's no review by this id");
-    } else {
-      res.status(200).send(foundReview);
-    }
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+export const getReviewById = (req, res) => {
+  const id = req.params.id;
+  const review = reviews.filter((f) => f.id == id);
+  if (!review) {
+    res.send("there's no review by this ID");
   }
+  res.status(200).send(review);
 };
 
 export const getReviewByRating = async (req, res) => {
@@ -68,17 +58,12 @@ export const editReview = (req, res) => {
   res.status(200).send(review);
 };
 
-export const deleteReview = async (req, res, next) => {
-  const reviewId = req.params.id;
-  try {
-    const foundReview = await review.findById(reviewId);
-    await review.deleteOne({ _id: reviewId });
-    if (!foundReview) {
-      res.send("there's no review by this id");
-    } else {
-      res.status(200).send("Review is deleted");
-    }
-  } catch (error) {
-    res.status(400).send({ message: error.message });
+export const deleteReview = (req, res) => {
+  const review = reviews.find((c) => c.id === parseInt(req.params.id));
+  if (!review) {
+    res.send("there's no review by this ID");
   }
+  const index = reviews.indexOf(review);
+  reviews.splice(index, 1);
+  res.status(200).send(review);
 };
