@@ -1,13 +1,18 @@
-import { reviews } from "../models/reviews.js";
+import { review } from "../models/reviews.js";
 import { validateReview } from "../helpers/validation";
 
-export const getReviews = (req, res) => {
-  const Reviews = reviews;
-  if (!reviews) {
-    res.send("there's no reviews");
+export const getReviews = async (req, res) => {
+  try {
+    const foundReviews = await review.find({})
+    if (foundReviews.length <= 0) {
+      res.send("there's no reviews")
+    } else {
+      res.send(foundReviews)
+    }
+  } catch (error) {
+    console.log(error)
   }
-  res.status(200).send(Reviews);
-};
+}
 export const getReviewById = (req, res) => {
   const id = req.params.id;
   const review = reviews.filter((f) => f.id == id);
