@@ -41,21 +41,19 @@ export const getReviewByRating = async (req, res) => {
   }
 }
 
-export const addReview = (req, res) => {
-  const review = req.body;
-  const validateRusult = validateReview(review);
-  if (validateRusult.error) {
-    res.status(400).send(validateRusult.error.details[0].message);
-  }
-  const addedReview = {
-    id: reviews.length + 1,
+export const addReview = async (req, res) => {
+  const reviewData = new review({
     title: req.body.title,
     description: req.body.description,
     rating: req.body.rating,
-  };
-  reviews.push(addedReview);
-  res.status(201).send(addedReview);
-};
+  })
+  try {
+    const dataToSave = await reviewData.save()
+    res.status(200).json(dataToSave)
+  } catch (error) {
+    res.status(400).json({ message: error.message })
+  }
+}
 export const editReview = (req, res) => {
   const review = reviews.find((c) => c.id === parseInt(req.params.id));
   const validateRusult = validateReview(req.body);
