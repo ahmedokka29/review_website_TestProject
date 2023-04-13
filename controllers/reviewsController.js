@@ -1,5 +1,4 @@
 import { review } from "../models/reviews.js";
-import { validateReview } from "../helpers/validation";
 
 export const getReviews = async (req, res) => {
   try {
@@ -54,17 +53,24 @@ export const addReview = async (req, res) => {
     res.status(400).json({ message: error.message })
   }
 }
-export const editReview = (req, res) => {
-  const review = reviews.find((c) => c.id === parseInt(req.params.id));
-  const validateRusult = validateReview(req.body);
-  if (validateRusult.error) {
-    res.status(400).send(validateRusult.error.details[0].message);
+export const editReview = async (req, res) => {
+  const reviewId = req.params.id
+  const { title, description, rating } = req.body
+  try {
+    const foundReview = await review.findById(reviewId)
+    if (!foundReview) {
+      res.send("there's no review by this id")
+    } else {
+      foundReview.title = title
+      foundReview.description = description
+      foundReview.rating = rating
+      await foundReview.save()
+      res.status(200).send(foundReview)
+    }
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
-  review.title = req.body.title;
-  review.description = req.body.description;
-  review.rating = req.body.rating;
-  res.status(200).send(review);
-};
+}
 
 export const deleteReview = async (req, res, next) => {
   const reviewId = req.params.id;
