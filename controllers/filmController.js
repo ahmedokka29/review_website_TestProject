@@ -15,14 +15,14 @@ export const getReviews = async (req, res) => {
     console.log(error);
   }
 };
-export const getReviewById = async (req, res) => {
-  const reviewId = req.params.id;
+export const getFilmById = async (req, res) => {
+  const filmId = req.params.id;
   try {
-    const foundReview = await review.findById(reviewId);
-    if (!foundReview) {
+    const foundFilm = await film.findById(filmId);
+    if (!foundFilm) {
       res.send("there's no review by this id");
     } else {
-      res.status(200).send(foundReview);
+      res.status(200).send(foundFilm);
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
