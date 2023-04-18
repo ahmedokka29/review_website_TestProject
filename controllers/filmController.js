@@ -43,19 +43,16 @@ export const getFilmByRating = async (req, res) => {
   }
 };
 
-export const addReview = async (req, res) => {
-  const reviewData = new review({
-    title: req.body.title,
-    description: req.body.description,
-    rating: req.body.rating,
-  })
+export const addFilm = async (req, res) => {
+  const filmData = new film(req.body);
   try {
-    const dataToSave = await reviewData.save()
-    res.status(200).json(dataToSave)
+    const dataToSave = await filmData.save();
+    res.status(200).json(dataToSave);
   } catch (error) {
-    res.status(400).json({ message: error.message })
+    res.status(400).json({ message: error.message });
   }
-}
+};
+
 export const editReview = async (req, res) => {
   const reviewId = req.params.id
   const { title, description, rating } = req.body

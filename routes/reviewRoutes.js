@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   getFilmById,
   getFilmByRating,
-  addReview,
+  addFilm,
   getReviews,
   editReview,
   deleteReview,
@@ -14,7 +14,7 @@ const reviewRouter = Router();
 reviewRouter.get("/api/reviews", getReviews);
 reviewRouter.get("/api/films/:id", getFilmById);
 reviewRouter.get('/api/films/rating/:rating', getFilmByRating);
-reviewRouter.post("/api/reviews", addReview);
+reviewRouter.post('/api/films', addFilm);
 reviewRouter.put("/api/reviews/:id", editReview);
 reviewRouter.delete("/api/reviews/:id", deleteReview);
 reviewRouter.delete('/api/films/:id', deleteFilm);
