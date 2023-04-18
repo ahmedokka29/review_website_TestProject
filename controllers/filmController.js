@@ -1,8 +1,11 @@
-import { review } from "../models/reviews.js";
+import { review } from "../models/film.js";
 
 export const getReviews = async (req, res) => {
+  const filmTitle = req.params.title;
   try {
-    const foundReviews = await review.find({});
+    const foundReviews = await film
+      .findOne({ title: filmTitle })
+      .distinct('reviews');
     if (foundReviews.length <= 0) {
       res.send("there's no reviews");
     } else {
