@@ -42,4 +42,20 @@ export const getUser = async (req, res) => {
   }
 };
 
+export const deleteUser = async (req, res) => {
+  const token = req.headers['token'];
+  try {
+    const decoded = jwt.verify(token, '123456');
+    const email = decoded.email;
+    const foundUser = await user.findOne({ email: email });
+    if (!foundUser) {
+      res.send('User not found');
+    } else {
+      await user.deleteOne({ email: email });
+      res.status(200).send('User is Deleted');
+    }
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
 
