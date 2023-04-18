@@ -11,3 +11,16 @@ export const getUsers = async (req, res) => {
       console.log(error);
     }
   };
+  export const signup = async (req, res) => {
+  try {
+    const newPassword = await bcrypt.hash(req.body.password, 10);
+    await user.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: newPassword,
+    });
+    res.status(200).send('User is created');
+  } catch (error) {
+    res.send({ message: error.message });
+  }
+};

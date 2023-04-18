@@ -29,19 +29,19 @@ export const getFilmById = async (req, res) => {
   }
 };
 
-export const getReviewByRating = async (req, res) => {
-  const reviewRating = req.params.rating
+export const getFilmByRating = async (req, res) => {
+  const filmRating = req.params.rating;
   try {
-    const foundReview = await review.find({ rating: reviewRating })
-    if (foundReview.length <= 0) {
-      res.send("there's no review by this rating")
+    const foundFilm = await film.find({ rating: filmRating });
+    if (foundFilm.length <= 0) {
+      res.send("there's no review by this rating");
     } else {
-      res.status(200).send(foundReview)
+      res.status(200).send(foundFilm);
     }
   } catch (error) {
-    res.status(400).json({ message: error.message })
+    res.status(400).json({ message: error.message });
   }
-}
+};
 
 export const addReview = async (req, res) => {
   const reviewData = new review({
