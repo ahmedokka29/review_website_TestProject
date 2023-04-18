@@ -89,3 +89,19 @@ export const deleteReview = async (req, res, next) => {
     res.status(400).send({ message: error.message });
   }
 };
+
+
+export const deleteFilm = async (req, res, next) => {
+  const filmId = req.params.id;
+  try {
+    const foundFilm = await film.findById(filmId);
+    if (!foundFilm) {
+      res.send("there's no film by this id");
+    } else {
+      await film.deleteOne({ _id: filmId });
+      res.status(200).send('Film is deleted');
+    }
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+};
