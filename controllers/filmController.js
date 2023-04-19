@@ -53,24 +53,22 @@ export const addFilm = async (req, res) => {
   }
 };
 
-export const editReview = async (req, res) => {
-  const reviewId = req.params.id
-  const { title, description, rating } = req.body
+export const editFilm = async (req, res) => {
+  const filmId = req.params.id;
   try {
-    const foundReview = await review.findById(reviewId)
-    if (!foundReview) {
-      res.send("there's no review by this id")
+    const foundFilm = await film.findByIdAndUpdate(filmId, req.body, {
+      new: true,
+    });
+    if (!foundFilm) {
+      res.send("there's no review by this id");
     } else {
-      foundReview.title = title
-      foundReview.description = description
-      foundReview.rating = rating
-      await foundReview.save()
-      res.status(200).send(foundReview)
+      await foundFilm.save();
+      res.status(200).send(foundFilm);
     }
   } catch (error) {
-    res.status(400).json({ message: error.message })
+    res.status(400).json({ message: error.message });
   }
-}
+};
 
 export const deleteReview = async (req, res, next) => {
   const reviewId = req.params.id;
