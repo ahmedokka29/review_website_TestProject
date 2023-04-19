@@ -1,5 +1,17 @@
-import { review } from "../models/film.js";
+import { film } from "../models/film.js";
 
+export const getFilms = async (req, res) => {
+  try {
+    const foundFilms = await film.find({});
+    if (foundFilms.length <= 0) {
+      res.send("there's no films");
+    } else {
+      res.send(foundFilms);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const getReviews = async (req, res) => {
   const filmTitle = req.params.title;
   try {
@@ -71,20 +83,35 @@ export const editFilm = async (req, res) => {
 };
 
 export const deleteReview = async (req, res, next) => {
+  const reviewTitle = req.params.title;
   const reviewId = req.params.id;
+
   try {
-    const foundReview = await review.findById(reviewId);
-    await review.deleteOne({ _id: reviewId });
+    const foundReview = await film.find({
+      reviews: { $elemMatch: { _id: reviewId } },
+    });
+
     if (!foundReview) {
       res.send("there's no review by this id");
     } else {
-      res.status(200).send("Review is deleted");
+      const newReview = await film.findOneAndUpdate(
+        { title: reviewTitle },
+        {
+          $pull: {
+            reviews: {
+              _id: reviewId,
+            },
+          },
+        },
+        { new: true }
+      );
+      await newReview.save();
+      res.status(200).send(newReview);
     }
   } catch (error) {
     res.status(400).send({ message: error.message });
   }
 };
-
 
 export const deleteFilm = async (req, res, next) => {
   const filmId = req.params.id;
