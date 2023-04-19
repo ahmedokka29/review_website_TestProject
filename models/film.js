@@ -5,6 +5,7 @@ const FilmSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
+      unique: true,
     },
     category: [String],
     description: String,
