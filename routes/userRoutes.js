@@ -14,7 +14,7 @@ userRoutes.get('/api/users', getUsers);
 userRoutes.post('/api/users/signup', signup);
 userRoutes.post('/api/users/login', login);
 userRoutes.get('/api/users/info', getUser);
-userRoutes.post('/api/users/:id', updateUser);
-userRoutes.delete('/api/users/:id', deleteUser);
+userRoutes.post('/api/users/update', updateUser);
+userRoutes.delete('/api/users/delete', deleteUser);
 
 export { userRoutes };

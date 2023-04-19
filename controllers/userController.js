@@ -78,7 +78,7 @@ export const getUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const token = req.headers['token'];
-  const userId = req.body.id;
+  // const userId = req.body.id;
 
   try {
     const decoded = jwt.verify(token, '123456');
