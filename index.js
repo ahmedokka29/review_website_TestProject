@@ -1,5 +1,5 @@
 import express from 'express'
-import { reviewRouter } from './routes/reviewRoutes.js'
+import { filmRoutes } from './routes/filmRoutes.js'
 import { userRoutes } from './routes/userRoutes.js'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
@@ -12,7 +12,7 @@ const url = process.env.DB
 
 app.use(express.json())
 
-app.use(reviewRouter);
+app.use(filmRoutes);
 app.use(userRoutes);
 
 app.listen(port, async () => {
